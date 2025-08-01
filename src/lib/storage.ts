@@ -125,11 +125,21 @@ export const isLoggedIn = (): boolean => {
 
 // Initialize with empty data
 export const initializeDemoData = (): void => {
-  // Initialize with empty arrays - no demo data
+  // Always initialize with empty arrays - no demo data
   if (!localStorage.getItem(STORAGE_KEYS.BARBERS)) {
     saveBarbers([]);
   }
   if (!localStorage.getItem(STORAGE_KEYS.TRANSACTIONS)) {
+    saveTransactions([]);
+  }
+  
+  // Clear any existing data on first load to ensure clean start
+  const isFirstLoad = !localStorage.getItem('barbershop_initialized');
+  if (!isFirstLoad) {
+    localStorage.setItem('barbershop_initialized', 'true');
+  } else {
+    // Reset to empty state
+    saveBarbers([]);
     saveTransactions([]);
   }
 };
